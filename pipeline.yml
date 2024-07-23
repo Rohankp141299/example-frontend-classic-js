@@ -1,0 +1,38 @@
+
+
+stages:
+- stage: ListFiles
+  jobs:
+  - job: ListFilesJob
+    steps:
+    - script: |
+        echo "Listing files in the current directory:"
+        ls
+      displayName: 'List Files'
+
+- stage: CatFile
+  dependsOn: ListFiles
+  condition: succeeded()
+  jobs:
+  - job: CatFileJob
+    steps:
+    - script: |
+        FILE="yourfile.txt"  # Change this to the file you want to print
+        if [ -f "$FILE" ]; then
+          echo "Printing the content of $FILE:"
+          cat "$FILE"
+        else
+          echo "$FILE does not exist."
+          exit 1  # Exit with an error if the file does not exist
+        fi
+      displayName: 'Print File Content'
+
+- stage: EchoSuccess
+  dependsOn: CatFile
+  condition: succeeded()
+  jobs:
+  - job: EchoSuccessJob
+    steps:
+    - script: |
+        echo "success"
+      displayName: 'Echo Success'
