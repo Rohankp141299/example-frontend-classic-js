@@ -17,7 +17,7 @@ stages:
   - job: CatFileJob
     steps:
     - script: |
-        FILE="yourfile.txt"  # Change this to the file you want to print
+        FILE="package.json"  # Change this to the file you want to print
         if [ -f "$FILE" ]; then
           echo "Printing the content of $FILE:"
           cat "$FILE"
